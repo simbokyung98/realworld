@@ -21,7 +21,7 @@
           </ul>
         </div>
 
-        <div class="article-preview">
+        <div v-for="article in articles" class="article-preview">
           <div class="article-meta">
             <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
             <div class="info">
@@ -34,28 +34,6 @@
           </div>
           <a href="/article/how-to-build-webapps-that-scale" class="preview-link">
             <h1>How to build webapps that scale</h1>
-            <p>This is the description for the post.</p>
-            <span>Read more...</span>
-            <ul class="tag-list">
-              <li class="tag-default tag-pill tag-outline">realworld</li>
-              <li class="tag-default tag-pill tag-outline">implementations</li>
-            </ul>
-          </a>
-        </div>
-
-        <div class="article-preview">
-          <div class="article-meta">
-            <a href="/profile/albert-pai"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-            <div class="info">
-              <a href="/profile/albert-pai" class="author">Albert Pai</a>
-              <span class="date">January 20th</span>
-            </div>
-            <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> 32
-            </button>
-          </div>
-          <a href="/article/the-song-you" class="preview-link">
-            <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
             <p>This is the description for the post.</p>
             <span>Read more...</span>
             <ul class="tag-list">
@@ -95,9 +73,13 @@
   </div>
 </div>
 </template>
-<script>
+<script setup>
+import {ref, onMounted} from 'vue';
+import {useArticles} from '../composable/useArticles';
+
+const  {page, articles, articleCount} = useArticles();
+
+
+
 
 </script>
-<style lang="">
-  
-</style>
