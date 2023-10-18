@@ -6,5 +6,10 @@ export const limit = 10;
 
 export function getArticles(page = 1){
   const params = {limit, offset:(page-1)*limit};
-  return axios.get('/articles',params);  
+  let response = null;
+  return axios.get('/articles',params);    
+}
+
+export function getTags(){
+  return axios.get('/tags');
 }

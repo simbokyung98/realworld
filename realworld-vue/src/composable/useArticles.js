@@ -1,24 +1,24 @@
 import { getArticles } from '../api';
-import {ref, reative} from "vue";
+import {ref} from 'vue';
 
-const page = ref(1);
+
 
 export function useArticles(){  
+  const page = ref(1);
+  const articles = ref([]);
+  const articlesCount = ref(0);
 
-  const articles = reative([]);
-  const articleCount = ref(0);
+  async function requestArticles(){
+    let response = await getArticles(page.value);
 
-  let response = rquestArticle();
-
-  if(response !== null){
-    articles = response.articles;
-    articleCount = response.articleCount; 
+    if(response !== null){
+      articles.value = response.data.articles;
+      articlesCount.value = response.data.articlesCount;
+    }
   }
-
-  return {page, articles, articleCount};  
+  
+  requestArticles();
+  return {page, articles, articlesCount};  
 }
 
-async function rquestArticle(){
-  return await getArticles(page.value); 
-}
 

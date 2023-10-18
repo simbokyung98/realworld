@@ -23,33 +23,29 @@
 
         <div v-for="article in articles" class="article-preview">
           <div class="article-meta">
-            <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+            <a href="/profile/eric-simons"><img :src="article.author.image" /></a>
             <div class="info">
-              <a href="/profile/eric-simons" class="author">Eric Simons</a>
+              <a href="/profile/eric-simons" class="author">{{article.author.username }}</a>
               <span class="date">January 20th</span>
             </div>
             <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> 29
+              <i class="ion-heart"></i> {{ article.favoritesCount }}
             </button>
           </div>
           <a href="/article/how-to-build-webapps-that-scale" class="preview-link">
-            <h1>How to build webapps that scale</h1>
-            <p>This is the description for the post.</p>
+            <h1>{{article.title}}</h1>
+            <p>{{article.description  }}</p>
             <span>Read more...</span>
-            <ul class="tag-list">
-              <li class="tag-default tag-pill tag-outline">realworld</li>
-              <li class="tag-default tag-pill tag-outline">implementations</li>
+            <ul class="tag-list" v-for="tag in article.tagList">
+              <li class="tag-default tag-pill tag-outline">{{ tag }}</li>
             </ul>
           </a>
         </div>
 
-        <ul class="pagination">
-          <li class="page-item active">
-            <a class="page-link" href="">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="">2</a>
-          </li>
+        <ul v-for="p in pages" class="pagination" >
+          <li class="page-item" :class="[p==page?'active':'']">
+            <a class="page-link" href="">{{ p }}</a>
+          </li>          
         </ul>
       </div>
 
@@ -58,14 +54,7 @@
           <p>Popular Tags</p>
 
           <div class="tag-list">
-            <a href="" class="tag-pill tag-default">programming</a>
-            <a href="" class="tag-pill tag-default">javascript</a>
-            <a href="" class="tag-pill tag-default">emberjs</a>
-            <a href="" class="tag-pill tag-default">angularjs</a>
-            <a href="" class="tag-pill tag-default">react</a>
-            <a href="" class="tag-pill tag-default">mean</a>
-            <a href="" class="tag-pill tag-default">node</a>
-            <a href="" class="tag-pill tag-default">rails</a>
+            <a v-for="tag in tags"  href="" class="tag-pill tag-default">{{tag}}</a>
           </div>
         </div>
       </div>
@@ -74,10 +63,18 @@
 </div>
 </template>
 <script setup>
-import {ref, onMounted} from 'vue';
+import {computed} from 'vue';
 import {useArticles} from '../composable/useArticles';
+import {useTags} from '../composable/useTags';
+import { limit } from '../api';
 
-const  {page, articles, articleCount} = useArticles();
+//articleList
+const  {page, articles, articlesCount} = useArticles();
+const pages = computed(()=> Math.ceil(articlesCount.value/limit));
+
+//TagList
+const {requestTags, tags} = useTags();
+
 
 
 
