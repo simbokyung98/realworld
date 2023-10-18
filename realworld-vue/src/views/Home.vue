@@ -44,7 +44,7 @@
 
         <ul v-for="p in pages" class="pagination" >
           <li class="page-item" :class="[p==page?'active':'']">
-            <a class="page-link" href="">{{ p }}</a>
+            <a class="page-link" @click="changePage(p)">{{ p }}</a>
           </li>          
         </ul>
       </div>
@@ -69,12 +69,12 @@ import {useTags} from '../composable/useTags';
 import { limit } from '../api';
 
 //articleList
-const  {page, articles, articlesCount} = useArticles();
+const  {page, articles, articlesCount, changePage, requestArticles} = useArticles();
 const pages = computed(()=> Math.ceil(articlesCount.value/limit));
+requestArticles();
 
 //TagList
 const {requestTags, tags} = useTags();
-
 
 
 

@@ -4,10 +4,10 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 export const limit = 10; 
 
-export function getArticles(page = 1){
-  const params = {limit, offset:(page-1)*limit};
+export function getArticles(page){
+  const params = {limit : limit, offset:(page-1)*limit};
   let response = null;
-  return axios.get('/articles',params);    
+  return axios.get('/articles',{params});    
 }
 
 export function getTags(){
