@@ -12,9 +12,9 @@
       <div class="col-md-9">
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="">Your Feed</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link active" href="">Global Feed</a>
             </li>
@@ -42,8 +42,8 @@
           </a>
         </div>
 
-        <ul v-for="p in pages" class="pagination" >
-          <li class="page-item" :class="[p==page?'active':'']">
+        <ul class="pagination" >
+          <li  v-for="p in pages" class="page-item" :class="[p==page?'active':'']">
             <a class="page-link" @click="changePage(p)">{{ p }}</a>
           </li>          
         </ul>
@@ -54,7 +54,7 @@
           <p>Popular Tags</p>
 
           <div class="tag-list">
-            <a v-for="tag in tags"  href="" class="tag-pill tag-default">{{tag}}</a>
+            <span v-for="tag in tags"  @click="" class="tag-pill tag-default">{{tag}}</span>
           </div>
         </div>
       </div>
