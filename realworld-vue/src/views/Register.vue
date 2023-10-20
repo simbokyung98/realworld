@@ -5,7 +5,7 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
           <p class="text-xs-center">
-            <a href="/login">Have an account?</a>
+            <router-link to="/login">Have an account?</router-link>
           </p>
 
           <ul class="error-messages">
@@ -17,7 +17,7 @@
               <input class="form-control form-control-lg" type="text" placeholder="Username" v-model="form.username" />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="Email" v-model="form.email" />
+              <input class="form-control form-control-lg" type="email" placeholder="Email" v-model="form.email" />
             </fieldset>
             <fieldset class="form-group">
               <input class="form-control form-control-lg" type="password" placeholder="Password" v-model="form.password" />
@@ -48,7 +48,7 @@ const submitFrom = () => {
   addUser(form);
   if (users.value != null) {
     errors.value = null;
-    router.push("/login");
+    router.push("/");
   }
 };
 </script>

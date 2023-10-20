@@ -13,7 +13,12 @@ export function getTags() {
   return axios.get("/tags");
 }
 
-export function postRegisterFrom(from) {
-  const user = { email: from.email, password: from.password, username: from.username };
+export function postRegisterForm(form) {
+  const user = { email: form.email, password: form.password, username: form.username };
   return axios.post("/users", { user });
+}
+
+export function postLoginForm(form) {
+  const user = { email: form.email, password: form.password };
+  return axios.post("/users/login", { user });
 }
