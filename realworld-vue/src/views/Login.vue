@@ -30,6 +30,7 @@
 import { reactive } from "vue";
 import { useAuth } from "../composable/useAuth";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../store/user";
 
 const router = useRouter();
 
@@ -39,11 +40,14 @@ const form = reactive({
 });
 
 const { login, loadding, errors, users } = useAuth();
+const { updateUser } = useUserStore();
 
-const submitFrom = () => {
-  login(form);
+const submitFrom = async () => {
+  await login(form);
+
   if (users.value != null) {
     errors.value = null;
+    updateUser(users.value);
     router.push("/");
   }
 };

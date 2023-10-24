@@ -1,41 +1,41 @@
-import { defineStore } from 'pinia';
-import {ref, computed} from 'vue';
-import { getUser } from '../api';
-import axios from 'axios';
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
+import { useAuth } from "../composable/useAuth";
 
-export const useUserStore = defineStore('user', () => {
+const { users, fetchUserInfo } = useAuth();
 
-  const user = ref(null);
-  const isLogined = computed(()=>{
-    if(user.value) return true;
+export const useUserStore = defineStore("user", () => {
+  const userInfo = ref(null);
 
-    if(localStorage.getItem('jwtToken')) return true;
-
-    return false;
+  const isLogined = computed(() => {
+    if (userInfo.value) return true;
+    console.log(userInfo.value);
+    return localStorage.getItem("jwtToken") !== null;
   });
 
   function updateUser(newUser) {
-    if(newUser){
-      user.value = newUser;
+    if (newUser) {
+      userInfo.value = newUser;
       localStorage.setItem("jwtToken", newUser.token);
-    }else{
-      user.value = null;
+    } else {
+      userInfo.value = null;
       localStorage.removeItem("jwtToken");
     }
   }
 
-  async function getUserInfo(){
-    if(isLogined){
-      user.value = user.value == null ? await getUser() : user.value; 
+  async function getUserInfo() {
+    if (isLogined.value && userInfo.value == null) {
+      await fetchUserInfo();
+      if (users.value != null) {
+        updateUser(users.value);
+      }
     }
-
-    return user;
   }
 
-  
   return {
-    user,
-    updateUser
-  }
-
+    userInfo,
+    updateUser,
+    isLogined,
+    getUserInfo,
+  };
 });
