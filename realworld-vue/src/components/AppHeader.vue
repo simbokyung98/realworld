@@ -21,7 +21,7 @@
 
 <script setup>
 import { computed } from "vue";
-import { useUserStore } from "../store/user";
+import { useUserStore } from "@/store/user";
 import { storeToRefs } from "pinia";
 
 const { isLogined, userInfo } = storeToRefs(useUserStore());

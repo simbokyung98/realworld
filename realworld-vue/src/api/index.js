@@ -20,8 +20,7 @@ axios.interceptors.request.use(
 export const limit = 10;
 
 //article
-export function getArticles(page) {
-  const params = { limit: limit, offset: (page - 1) * limit };
+export function getArticles(params) {
   return axios.get("/articles", { params });
 }
 

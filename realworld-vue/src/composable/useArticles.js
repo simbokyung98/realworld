@@ -6,7 +6,8 @@ export function useArticles() {
   const articlesCount = ref(0);
 
   async function requestArticles() {
-    let response = await getArticles(page.value);
+    const params = { limit: limit, offset: (page.value - 1) * limit };
+    let response = await getArticles(...param, page.value);
 
     if (response !== null) {
       articles.value = response.data.articles;
