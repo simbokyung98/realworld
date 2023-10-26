@@ -9,11 +9,11 @@ export const useUserStore = defineStore("user", () => {
 
   const isLogined = computed(() => {
     if (userInfo.value) return true;
-    console.log(userInfo.value);
     return localStorage.getItem("jwtToken") !== null;
   });
 
   function updateUser(newUser) {
+    console.log("update", newUser);
     if (newUser) {
       userInfo.value = newUser;
       localStorage.setItem("jwtToken", newUser.token);
@@ -24,11 +24,9 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function getUserInfo() {
-    if (isLogined.value && userInfo.value == null) {
-      await fetchUserInfo();
-      if (users.value != null) {
-        updateUser(users.value);
-      }
+    await fetchUserInfo();
+    if (users.value != null) {
+      updateUser(users.value);
     }
   }
 

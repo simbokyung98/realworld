@@ -6,29 +6,40 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      component: () => import("../views/Home.vue"),
-    },
-    {
-      path: "/login",
-      component: () => import("../views/Login.vue"),
-    },
-    {
-      path: "/register",
-      component: () => import("../views/Register.vue"),
+      path: "/:id",
+      component: () => import("../views/Main.vue"),
+      children: [
+        {
+          path: "/",
+          component: () => import("../views/Articles/Home.vue"),
+        },
+        {
+          path: "/login",
+          component: () => import("../views/User/Login.vue"),
+        },
+        {
+          path: "/register",
+          component: () => import("../views/User/Register.vue"),
+        },
+      ],
     },
   ],
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to) => {
   const store = useUserStore();
-  const token = localStorage.getItem("jwt-token");
+  const token = localStorage.getItem("jwtToken");
 
-  const { isLogined, getUserInfo } = storeToRefs(store);
+  const { userInfo, isLogined } = storeToRefs(store);
+  const { getUserInfo } = useUserStore();
 
   if (isLogined.value) {
-    return true;
+    if (!userInfo.value && token) {
+      await getUserInfo();
+      return true;
+    }
   } else {
+    return true;
   }
 });
 export default router;
