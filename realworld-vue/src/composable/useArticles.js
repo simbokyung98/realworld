@@ -1,13 +1,13 @@
-import { getArticles } from "../api";
+import { getArticles, limit } from "../api";
 import { ref, watch } from "vue";
 
 export function useArticles() {
   const articles = ref([]);
   const articlesCount = ref(0);
 
-  async function requestArticles() {
-    const params = { limit: limit, offset: (page.value - 1) * limit };
-    let response = await getArticles(...param, page.value);
+  async function requestArticles(remoteParams) {
+    const params = { ...remoteParams, limit: limit, offset: (page.value - 1) * limit };
+    let response = await getArticles(params);
 
     if (response !== null) {
       articles.value = response.data.articles;

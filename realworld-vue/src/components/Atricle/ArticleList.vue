@@ -35,7 +35,7 @@ import { limit } from "../../api";
 //articleList
 const { page, articles, articlesCount, changePage, requestArticles } = useArticles();
 const pages = computed(() => Math.ceil(articlesCount.value / limit));
-requestArticles();
+requestArticles({});
 
 //TagList
 const { requestTags, tags } = useTags();
