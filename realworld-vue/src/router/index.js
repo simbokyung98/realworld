@@ -6,7 +6,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/:id",
+      path: "/",
       component: () => import("../views/Main.vue"),
       children: [
         {
