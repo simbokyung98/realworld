@@ -14,7 +14,7 @@ export function useArticles() {
   const articles = ref([]);
   const articlesCount = ref(0);
 
-  const params = ref({
+  const paramList = ref({
     yourFeed: { author: userInfo.value?.username },
     globalFeed: {},
     tagFeed: { tag: tag.value },
@@ -23,7 +23,8 @@ export function useArticles() {
   });
 
   async function requestArticles() {
-    const params = { ...params.value[activeLabel], limit: limit, offset: (page.value - 1) * limit };
+    console.log(paramList.value[activeLabel.value]);
+    const params = { ...paramList.value[activeLabel.value], limit: limit, offset: (page.value - 1) * limit };
     let response = await getArticles(params);
 
     if (response !== null) {
@@ -39,7 +40,14 @@ export function useArticles() {
   watch(
     () => page.value,
     () => {
-      requestArticles({});
+      requestArticles();
+    }
+  );
+
+  watch(
+    () => activeLabel.value,
+    () => {
+      requestArticles();
     }
   );
 
