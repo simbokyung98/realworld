@@ -1,20 +1,17 @@
 import { getTags } from "../api";
-import {ref} from "vue";
+import { ref } from "vue";
 
-export function useTags(){  
+export function useTags() {
   const tags = ref([]);
-    
 
-  async function requestTags(){
+  async function requestTags() {
     let response = await getTags();
 
-    if(response != null){
+    if (response != null) {
       tags.value = response.data.tags;
     }
-    
   }
-  
+
   requestTags();
-  return {requestTags, tags};  
+  return { requestTags, tags };
 }
-  
