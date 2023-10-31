@@ -23,11 +23,11 @@ export function useArticles() {
   });
 
   async function requestArticles() {
-    console.log(paramList.value[activeLabel.value]);
     const params = { ...paramList.value[activeLabel.value], limit: limit, offset: (page.value - 1) * limit };
     let response = await getArticles(params);
 
     if (response !== null) {
+      console.log(response);
       articles.value = response.data.articles;
       articlesCount.value = response.data.articlesCount;
     }
@@ -35,6 +35,11 @@ export function useArticles() {
 
   function changePage(num) {
     page.value = num;
+  }
+
+  function changeActiveLable(name) {
+    if (tag.value != null && name != tag.value) tag.value = null;
+    activeLabel.value = name;
   }
 
   watch(
@@ -58,6 +63,7 @@ export function useArticles() {
     articles,
     articlesCount,
     changePage,
+    changeActiveLable,
     requestArticles,
   };
 }

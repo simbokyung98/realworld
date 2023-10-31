@@ -3,7 +3,7 @@
     <ul class="nav nav-pills outline-active">
       <template v-for="{ name, title } in links" :key="title">
         <li class="nav-item">
-          <router-link to="" :class="['nav-link', { active: isActive(name) }]" @click="handleClick(name)">
+          <router-link to="" :class="['nav-link', { active: activeLabel == name }]" @click="handleClick(name)">
             {{ title }}
           </router-link>
         </li>
@@ -15,10 +15,8 @@
 import { ref, computed } from "vue";
 import { useUserStore } from "@/store/user";
 import { storeToRefs } from "pinia";
-import { useArticles } from "@/composable/useArticles";
 
 const { isLogined } = storeToRefs(useUserStore());
-const { activeLabel, tag } = useArticles();
 
 const props = defineProps({
   useGlobalFeed: Boolean,
@@ -26,6 +24,8 @@ const props = defineProps({
   useTagFeed: Boolean,
   useUserFeed: Boolean,
   useUserFavorited: Boolean,
+  tag: String,
+  activeLabel: String,
 });
 
 const articleNavOptions = ref([
@@ -42,7 +42,7 @@ const articleNavOptions = ref([
   {
     name: "tagFeed",
     title: "tag",
-    display: props.useTagFeed && tag.value != null,
+    display: props.useTagFeed && props.tag != null,
   },
   {
     name: "myArticles",
@@ -58,12 +58,9 @@ const articleNavOptions = ref([
 
 const links = computed(() => articleNavOptions.value.filter((link) => link.display));
 
-function handleClick(name) {
-  if (tag.value != null && name != tag.value) tag.value = null;
-  activeLabel.value = name;
-}
+const emit = defineEmits(["onChangeActiveLable"]);
 
-function isActive(name) {
-  return activeLabel.value == name;
+function handleClick(name) {
+  emit("onChangeActiveLable", name);
 }
 </script>

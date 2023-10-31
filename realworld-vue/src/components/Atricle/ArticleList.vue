@@ -1,8 +1,8 @@
 <template>
-  <ArticleNavigation useGlobalFeed useMyFeed useTagFeed />
+  <ArticleNavigation v-bind="$attrs" @onChangeActiveLable="changeActiveLable" :tag="tag" :activeLabel="activeLabel" />
   <ArticlePreview v-for="article in articles" :article="article" />
 
-  <ArticlePagination :page="page" :articlesCount="articlesCount" @pageChange="changePage" />
+  <ArticlePagination :page="page" :articlesCount="articlesCount" @onChangePage="changePage" />
 </template>
 <script setup>
 import ArticleNavigation from "@components/Atricle/ArticleNavigation.vue";
@@ -11,6 +11,7 @@ import ArticlePagination from "@components/Atricle/ArticlePagination.vue";
 import { useArticles } from "@/composable/useArticles";
 
 //articleList
-const { articles, requestArticles, page, articlesCount, changePage } = useArticles();
-requestArticles({});
+const { page, tag, activeLabel, articles, articlesCount, changePage, changeActiveLable, requestArticles } =
+  useArticles();
+requestArticles();
 </script>
