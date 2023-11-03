@@ -10,16 +10,26 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
-          <ArticleList useGlobalFeed useMyFeed useTagFeed />
+          <ArticleNavigation useGlobalFeed useMyFeed useTagFeed />
+
+          <suspense>
+            <template #default>
+              <ArticleList />
+            </template>
+            <template #fallback> <div class="article-preview">Loading tags...</div> </template>
+          </suspense>
         </div>
 
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
 
-            <div class="tag-list">
-              <span v-for="t in tags" @click="onClick(t)" class="tag-pill tag-default">{{ t }}</span>
-            </div>
+            <suspense>
+              <template #default>
+                <PopularTags />
+              </template>
+              <template #fallback> Loading tags... </template>
+            </suspense>
           </div>
         </div>
       </div>
@@ -27,15 +37,7 @@
   </div>
 </template>
 <script setup>
+import ArticleNavigation from "@components/Atricle/ArticleNavigation.vue";
 import ArticleList from "@components/Atricle/ArticleList.vue";
-import { useTags } from "@/composable/useTags";
-import { useArticles } from "@/composable/useArticles";
-
-//TagList
-const { tags } = useTags();
-const { tag } = useArticles();
-
-function onClick(t) {
-  tag.value = t;
-}
+import PopularTags from "@components/Tags/PopularTags.vue";
 </script>

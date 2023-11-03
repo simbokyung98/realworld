@@ -15,8 +15,10 @@
 import { ref, computed } from "vue";
 import { useUserStore } from "@/store/user";
 import { storeToRefs } from "pinia";
+import { useArticles } from "@/composable/useArticles";
 
 const { isLogined } = storeToRefs(useUserStore());
+const { tag, activeLabel, changeActiveLable } = useArticles();
 
 const props = defineProps({
   useGlobalFeed: Boolean,
@@ -24,8 +26,6 @@ const props = defineProps({
   useTagFeed: Boolean,
   useUserFeed: Boolean,
   useUserFavorited: Boolean,
-  tag: String,
-  activeLabel: String,
 });
 
 const articleNavOptions = ref([
@@ -42,7 +42,7 @@ const articleNavOptions = ref([
   {
     name: "tagFeed",
     title: "tag",
-    display: props.useTagFeed && props.tag != null,
+    display: props.useTagFeed && tag.value != null,
   },
   {
     name: "myArticles",
@@ -58,9 +58,7 @@ const articleNavOptions = ref([
 
 const links = computed(() => articleNavOptions.value.filter((link) => link.display));
 
-const emit = defineEmits(["onChangeActiveLable"]);
-
 function handleClick(name) {
-  emit("onChangeActiveLable", name);
+  changeActiveLable(name);
 }
 </script>

@@ -12,6 +12,5 @@ export function useTags() {
     }
   }
 
-  requestTags();
   return { requestTags, tags };
 }

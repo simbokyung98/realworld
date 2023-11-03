@@ -1,5 +1,5 @@
 import { getArticles, limit } from "../api";
-import { ref, watch, computed } from "vue";
+import { ref, watch } from "vue";
 
 import { useUserStore } from "@/store/user";
 import { storeToRefs } from "pinia";
@@ -9,7 +9,7 @@ const { isLogined, userInfo } = storeToRefs(useUserStore());
 export function useArticles() {
   const page = ref(1);
   const tag = ref(null);
-  const activeLabel = ref(isLogined.value ? "yourFeed" : "globalFeed");
+  const activeLabel = ref(!isLogined.value ? "yourFeed" : "globalFeed");
 
   const articles = ref([]);
   const articlesCount = ref(0);
@@ -38,21 +38,24 @@ export function useArticles() {
   }
 
   function changeActiveLable(name) {
+    page.value = 1;
     if (tag.value != null && name != tag.value) tag.value = null;
     activeLabel.value = name;
   }
 
   watch(
     () => page.value,
-    () => {
-      requestArticles();
+    async () => {
+      console.log("페이지 변경");
+      await requestArticles();
     }
   );
 
   watch(
     () => activeLabel.value,
-    () => {
-      requestArticles();
+    async () => {
+      console.log(activeLabel.value);
+      await requestArticles();
     }
   );
 
